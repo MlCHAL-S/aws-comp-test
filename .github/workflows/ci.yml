@@ -1,0 +1,38 @@
+name: CI Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Python environment
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12'
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+
+    # Step 4: Lint the code with flake8
+    - name: Lint code with flake8
+      run: |
+        source venv/bin/activate
+        pip install flake8
+        flake8 .
+
+    # Step 5: Run tests with pytest
+    - name: Run tests with pytest
+      run: |
+        source venv/bin/activate
+        pytest
