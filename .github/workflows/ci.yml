@@ -24,15 +24,20 @@ jobs:
         source venv/bin/activate
         pip install -r requirements.txt
 
-    # Step 4: Lint the code with pylint
+    # Step 4: Install additional dependencies
+    - name: Install pylint and pytest
+      run: |
+        source venv/bin/activate
+        pip install pylint pytest pytest-cov
+
+    # Step 5: Lint the code with pylint
     - name: Lint code with pylint
       run: |
         source venv/bin/activate
-        pip install pylint
         pylint app.py tests/
 
-    # Step 5: Run tests with pytest
+    # Step 6: Run tests with pytest
     - name: Run tests with pytest
       run: |
         source venv/bin/activate
-        pytest
+        pytest --cov=app --cov=tests --cov-report=term
