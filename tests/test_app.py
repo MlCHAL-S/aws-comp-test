@@ -1,8 +1,8 @@
 """
 Test module for the Flask application.
 """
-import pytest
 from unittest.mock import patch
+import pytest
 from app import app
 
 @pytest.fixture
