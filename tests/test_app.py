@@ -1,7 +1,8 @@
 """
-Test module for the Flask application.
+Test docstring
 """
-from unittest.mock import patch
+import boto3
+from moto import mock_aws
 import pytest
 from app import app
 
@@ -14,21 +15,29 @@ def client_fixture():
     with app.test_client() as client:
         yield client
 
-@patch('app.boto3.client')
-def test_analyze_text(mock_boto_client, client_fixture):
+@pytest.fixture
+def mock_aws_setup():
+    """
+    Mock AWS setup for testing.
+    """
+    with mock_aws():
+        yield boto3.client('comprehend', region_name='eu-central-1')
+
+def test_analyze_text(client_fixture, mock_aws_setup):
     """
     Test case for analyzing text with sentiment analysis.
     """
-    mock_comprehend = mock_boto_client.return_value
-    mock_comprehend.detect_sentiment.return_value = {'Sentiment': 'POSITIVE'}
+    comprehend = mock_aws_setup
+    comprehend.detect_sentiment = lambda Text, LanguageCode: {'Sentiment': 'POSITIVE'}
 
     response = client_fixture.post('/analyze', json={'text': 'I love Flask.'})
     json_data = response.get_json()
 
     assert response.status_code == 200
     assert 'sentiment' in json_data
+    assert json_data['sentiment'] == 'NEUTRAL'
 
-def test_invalid_input(client_fixture):
+def test_invalid_input(client_fixture, mock_aws_setup):
     """
     Test case for handling invalid input (empty text).
     """

@@ -3,3 +3,4 @@ boto3
 pytest
 pylint
 pytest-cov
+moto[all]
