@@ -1,9 +1,6 @@
 """
-Test docstring
+sdfkjsdojkf
 """
-from unittest.mock import patch
-import boto3
-from moto import mock_aws
 import pytest
 from app import app
 
@@ -16,24 +13,10 @@ def client_fixture():
     with app.test_client() as client:
         yield client
 
-@pytest.fixture
-def mock_aws_setup():
-    """
-    Mock AWS setup for testing.
-    """
-    with mock_aws():
-        yield boto3.client('comprehend', region_name='eu-central-1')
-
-
-@patch('boto3.client')
-def test_analyze_text(mock_boto_client, client_fixture):
+def test_analyze_text(client_fixture):
     """
     Test case for analyzing text with sentiment analysis.
     """
-    # Set up the mock
-    mock_comprehend = mock_boto_client.return_value
-    mock_comprehend.detect_sentiment.return_value = {'Sentiment': 'POSITIVE'}
-
     # Perform the test
     response = client_fixture.post('/analyze', json={'text': 'I love Flask.'})
 
@@ -41,8 +24,7 @@ def test_analyze_text(mock_boto_client, client_fixture):
     assert response.status_code == 200
     assert response.json['sentiment'] == 'POSITIVE'
 
-
-def test_invalid_input(client_fixture, mock_aws_setup):
+def test_invalid_input(client_fixture):
     """
     Test case for handling invalid input (empty text).
     """
