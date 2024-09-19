@@ -1,6 +1,7 @@
 """
 Test docstring
 """
+from unittest.mock import patch
 import boto3
 from moto import mock_aws
 import pytest
@@ -23,19 +24,23 @@ def mock_aws_setup():
     with mock_aws():
         yield boto3.client('comprehend', region_name='eu-central-1')
 
-def test_analyze_text(client_fixture, mock_aws_setup):
+
+@patch('boto3.client')
+def test_analyze_text(mock_boto_client, client_fixture):
     """
     Test case for analyzing text with sentiment analysis.
     """
-    comprehend = mock_aws_setup
-    comprehend.detect_sentiment = lambda Text, LanguageCode: {'Sentiment': 'POSITIVE'}
+    # Set up the mock
+    mock_comprehend = mock_boto_client.return_value
+    mock_comprehend.detect_sentiment.return_value = {'Sentiment': 'POSITIVE'}
 
+    # Perform the test
     response = client_fixture.post('/analyze', json={'text': 'I love Flask.'})
-    json_data = response.get_json()
 
+    # Check the response
     assert response.status_code == 200
-    assert 'sentiment' in json_data
-    assert json_data['sentiment'] == 'NEUTRAL'
+    assert response.json['sentiment'] == 'POSITIVE'
+
 
 def test_invalid_input(client_fixture, mock_aws_setup):
     """
