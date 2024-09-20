@@ -27,4 +27,4 @@ jobs:
           aws-region: eu-central-1 # Specify your region here
 
       - name: Run tests
-        run: pytest
+        run: pytest --cov=app --cov=tests --cov-report=term
