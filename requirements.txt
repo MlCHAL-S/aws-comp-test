@@ -3,4 +3,6 @@ boto3
 pytest
 pylint
 pytest-cov
-moto[all]
+moto[comprehend]
+behave
+beautifulsoup4

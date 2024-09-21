@@ -13,6 +13,8 @@ def index():
     """Handle GET and POST requests for the homepage."""
     if request.method == 'POST':
         text = request.form.get('text')
+        # print(f'Form data: {request.form}')
+        # print(f'Received text: {text}')
 
         if not text:
             error = 'Text is required'
@@ -20,8 +22,9 @@ def index():
 
         # Call AWS Comprehend to analyze sentiment
         response = comprehend.detect_sentiment(Text=text, LanguageCode='en')
-        sentiment = response['Sentiment']
+        sentiment = response['Sentiment']  # This should extract the sentiment
 
+        # Pass the sentiment result back to the template
         return render_template('index.html', sentiment=sentiment, text=text)
 
     return render_template('index.html')

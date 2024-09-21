@@ -16,12 +16,12 @@
 
                     <!-- Display error message if no text is provided -->
                     {% if error %}
-                        <div class="alert alert-danger">{{ error }}</div>
+                        <div id="error-message" class="alert alert-danger">{{ error }}</div> <!-- Add id="error-message" -->
                     {% endif %}
 
                     <!-- Display sentiment result if available -->
                     {% if sentiment %}
-                        <div class="alert alert-info">
+                        <div id="sentiment-result" class="alert alert-info"> <!-- Add id="sentiment-result" -->
                             Sentiment: <strong>{{ sentiment }}</strong>
                         </div>
                     {% endif %}
