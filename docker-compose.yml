@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend-server:
+    build: ./src/server
+    container_name: backend-server
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+    volumes:
+      - ./src/server:/app
+      - ~/.aws:/root/.aws  # Mounts the local AWS credentials for boto3 access
+    environment:
+      - FLASK_APP=server.py
+      - FLASK_ENV=production
+      - AWS_DEFAULT_REGION=us-east-1  # Ensure you set the correct AWS region
+
+  client:
+    build: ./src/client
+    container_name: client
+    ports:
+      - "5001:5001"
+    depends_on:
+      - backend-server
+    networks:
+      - app-network
+    volumes:
+      - ./src/client:/app
+
+networks:
+  app-network:
+    driver: bridge
