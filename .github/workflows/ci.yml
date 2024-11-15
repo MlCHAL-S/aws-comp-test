@@ -27,7 +27,6 @@ jobs:
 
       - name: Run linting
         run: |
-          export PYTHONPATH=src:$PYTHONPATH
           pylint src
           pylint tests
 
@@ -35,5 +34,4 @@ jobs:
         env:
           PYTHONPATH: src
         run: |
-          export PYTHONPATH=src:$PYTHONPATH
           pytest
