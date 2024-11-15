@@ -4,6 +4,8 @@ name: CI Pipeline
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   build:
@@ -25,11 +27,13 @@ jobs:
 
       - name: Run linting
         run: |
-          pylint src.client
-          pylint src.server
+          export PYTHONPATH=src:$PYTHONPATH
+          pylint src
           pylint tests
 
       - name: Run tests
+        env:
+          PYTHONPATH: src
         run: |
           export PYTHONPATH=src:$PYTHONPATH
           pytest
