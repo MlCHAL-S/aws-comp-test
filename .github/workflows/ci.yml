@@ -27,6 +27,7 @@ jobs:
 
       - name: Run linting
         run: |
+          export PYTHONPATH=src:$PYTHONPATH
           pylint src.client
           pylint src.server
           pylint tests
