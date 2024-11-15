@@ -10,11 +10,11 @@ services:
       - app-network
     volumes:
       - ./src/server:/app
-      - ~/.aws:/root/.aws  # Mounts the local AWS credentials for boto3 access
+      - ~/.aws:/root/.aws
     environment:
       - FLASK_APP=server.py
       - FLASK_ENV=production
-      - AWS_DEFAULT_REGION=us-east-1  # Ensure you set the correct AWS region
+      - AWS_DEFAULT_REGION=us-east-1
 
   client:
     build: ./src/client

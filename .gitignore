@@ -1,1 +1,62 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs
+logs/
+*.log
+
+# Test coverage
+.coverage
+coverage.xml
+htmlcov/
+
+# Docker
+*.env
+docker-compose.override.yml
+
+# Flask-specific files
+instance/
+*.pyc
+
+# Temporary files and directories
+*.bak
+*.swp
+*.tmp
+*.old
+*.orig
+*.save
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Build files
+build/
+dist/
+*.egg-info/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Python virtual environments
+venv/
+.venv/
+.env/
+
+# Other Python files
+pip-log.txt
+pytest_cache/
+__pycache__/
+
+# Ignore any other unnecessary files for the project
+.DS_Store
+Thumbs.db
+
+# Notes
+run.txt
 cfs.sh
